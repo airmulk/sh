@@ -1,0 +1,6 @@
+#!/bin/bash
+# Usage: ./spellcheck wordlist yourtext
+# wordlist list of correct words (dictionary), yourtext file with your text.
+# Based on exercise 4.4 from The Unix Programming Environment, Brian W. Kernighan and Rob Pike.
+
+comm -13 <(cat $1 | tr A-Z a-z | sort -u) <(cat $2 | tr -sc A-Za-z '\n' | tr A-Z a-z | sort -u)

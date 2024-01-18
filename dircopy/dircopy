@@ -1,4 +1,4 @@
-# !/bin/bash
+#!/bin/bash
 
 # A toy script that creates an executable file to copy directory's contents.
 # Usage: ./dircopy dirname > result.
@@ -9,7 +9,7 @@
 # No need for these comments on recursive calls.
 if [[ $2 != "skip" ]]
 then
-  echo "# !/bin/bash"
+  echo"# !/bin/bash"
   echo
   echo "# To extract $1, run this file." 
   echo "# Make sure the directory you're running this file in doesn't contain files or folders named \"$1\"."

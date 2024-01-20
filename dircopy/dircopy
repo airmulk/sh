@@ -3,31 +3,31 @@
 # A toy script that creates an executable file to copy directory's contents.
 # Usage: ./dircopy dirname > result.
 # Running result will create dirname with its contents.
-# Can't handle spaces and links as it relies on 'ls -p | grep'.
+# Can't handle spaces in filenames.
 # Based on exercise 3.17 from The Unix Programming Environment, Brian W. Kernighan and Rob Pike.
 
 # No need for these comments on recursive calls.
 if [[ $2 != "skip" ]]
 then
-  echo"# !/bin/bash"
+  echo "#!/bin/bash"
   echo
   echo "# To extract $1, run this file." 
   echo "# Make sure the directory you're running this file in doesn't contain files or folders named \"$1\"."
   echo
 fi
 # Create directory passed as argument.
-echo "mkdir $1"
+echo "mkdir $1/"
 # Copy contents of current directory's files.
 # When the resulting file is executed, it will read files' contents using in-here document.
-for i in `ls $1 -p | grep -v /`
+for i in `ls $1 -lA | grep -E '^-.*' | sed 's/.* //g'`
 do
   echo "echo $1/$i 1>&2"
   echo "cat > $1/$i <<'End of $1/$i'"
   cat $1/$i
   echo "End of $1/$i"
 done
-# Recursively execute script on subfolders, drop the last "/" character.
-for i in `ls $1 -p | grep /`
+# Recursively execute script on subfolders.
+for i in `ls $1 -lA | grep -E '^d.*' | sed 's/.* //g'`
 do
-  $0 $1/${i%?} "skip"
+  $0 $1/$i "skip"
 done

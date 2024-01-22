@@ -19,10 +19,10 @@ fi
 echo "mkdir $1/"
 # Copy contents of current directory's files.
 # When the resulting file is executed, it will read files' contents using in-here document.
-for i in `ls $1 -lA | grep -E '^-.*' | sed 's/.* //g'`
+for i in `ls $1 -lA | grep -E '^-.*' | sed 's/.* //g'`  # TODO: spaces
 do
   echo "echo $1/$i 1>&2"
-  echo "cat > $1/$i <<'End of $1/$i'"
+  echo "cat > $1/$i <<'End of $1/$i'"  # TODO: check last line with sed if it equals "End of \$i"
   cat $1/$i
   echo "End of $1/$i"
 done

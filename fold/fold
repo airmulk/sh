@@ -1,0 +1,36 @@
+#!/usr/bin/bash
+
+# A toy script that folds lines at 80 symbols (not breaking words), adds \ and aligns the rest of the line right.
+# Usage: ./fold files 
+# Based on exercise 4.10 from The Unix Programming Environment, Brian W. Kernighan and Rob Pike.
+
+cat $* | tr -s [[:space:]] | awk '
+  BEGIN {
+    N=80
+    for (i=1; i<=N; i++)
+      blanks=blanks" "
+  }
+  {
+    if (n=length($0) <= N)
+      print
+    else {
+      start=1
+      s=$1
+      for (k=2; k<=NF; k++)
+        if (length(s) + length($k) + 1 <= N) {
+          s=s" "$k
+        }
+        else {
+          if (start) {
+            printf("%s\\\n", s)
+            start=0
+          }
+          else
+            printf("%s%s\\\n", substr(blanks, 1, N-length(s)), s)
+          s=$k
+        }
+      printf("%s%s\n", substr(blanks, 1, N-length(s)), s)
+    }
+  }
+'
+    
